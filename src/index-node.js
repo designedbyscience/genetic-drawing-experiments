@@ -1,6 +1,9 @@
-var fs = require('fs');
-var Canvas = require('canvas'),
+let fs = require('fs'),
+    Canvas = require('canvas'),
     Image = Canvas.Image; 
+
+// Image file to score against
+let imageFilename = "/lime-slice-02.jpg";
 
 import geneticDrawingNode from './geneticDrawingNode.js';
 
@@ -15,7 +18,7 @@ const masterCtx = master.getContext('2d'),
     parentCtx = parent.getContext('2d'),
     childCtx = child.getContext('2d');
 
-fs.readFile(__dirname + '/lime-slice-02.jpg', function(err, imageFile){
+fs.readFile(__dirname + imageFilename, function(err, imageFile){
   if (err) throw err;
   let img = new Image;
   img.src = imageFile;

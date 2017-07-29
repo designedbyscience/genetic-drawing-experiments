@@ -3,6 +3,9 @@ let fs = require('fs'),
     Image = Canvas.Image,
     cluster = require('cluster');    
 
+// Image file to score against
+let imageFilename = "/lime-slice-02.jpg";
+
 import geneticDrawingNodeCluster from './geneticDrawingNodeCluster.js';
 
 let topScore = 0,
@@ -11,7 +14,7 @@ let topScore = 0,
 if (cluster.isMaster) {
     console.log("Is Master");
 
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < 4; i++) {
         cluster.fork();
     }
 
@@ -52,7 +55,7 @@ if (cluster.isMaster) {
         parentCtx = parent.getContext('2d'),
         childCtx = child.getContext('2d');
 
-    fs.readFile(__dirname + '/lime-slice-02.jpg', function(err, imageFile){
+    fs.readFile(__dirname + imageFilename, function(err, imageFile){
       if (err) throw err;
 
       let img = new Image;

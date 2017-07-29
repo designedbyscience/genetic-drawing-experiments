@@ -10,7 +10,6 @@ export default class extends geneticDrawing {
     constructor(width, height, masterCtx, parentCtx, childCtx, img, parent) { 
         super(width, height, masterCtx, parentCtx, childCtx, img);
         this.parent = parent;
-    
     }
 
     genRunner() {
@@ -22,30 +21,29 @@ export default class extends geneticDrawing {
     }
 
     outputStep() {
+        if (this.gen % 1000 === 0) {
+            let out = fs.createWriteStream(__dirname + '/output/' + this.gen + '.png');
+            let stream = this.parent.pngStream();
 
-                if (this.gen % 10000 === 0) {
-                    console.log(this.gen);
-                    console.log(this.parentScore);                    
-                    console.log(this.generationsPerSecond());
-                    process.send({score: this.parentScore, dna: this.dna});
-                    
-                    var out = fs.createWriteStream(__dirname + '/output/' + this.gen + '.png');
-                    var stream = this.parent.pngStream();
-
-                    stream.on('data', function(chunk){
-                      out.write(chunk);
-                    });
-
-                    stream.on('end', function(){
-                      console.log('saved png');
-                    });
-
-                    fs.writeFile(__dirname + '/output/' + this.gen + '.json', JSON.stringify(this.dna), function (err) {
-
-                    });
-                }
+            console.log(this.gen);
+            console.log(this.parentScore);                    
+            console.log(this.generationsPerSecond());
+            process.send({score: this.parentScore, dna: this.dna});
             
+
+            stream.on('data', function(chunk){
+                out.write(chunk);
+            });
+
+            stream.on('end', function(){
+                console.log('saved png');
+            });
+
+            fs.writeFile(__dirname + '/output/' + this.gen + '.json', JSON.stringify(this.dna), function (err) {
+
+            });
+        }
+
     }
-
-
-} 
+}
+ 
